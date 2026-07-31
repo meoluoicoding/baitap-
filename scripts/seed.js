@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const dns = require("dns");
 dns.setServers(["1.1.1.1"]);
-require("dotenv").config({ path: path.join(__dirname, "..", "atlas-credentials.env") });
+require("dotenv").config({ path: path.join(__dirname, "..", ".env") });
 
 const mongoose = require("mongoose");
 const Book = require(path.join(__dirname, "..", "model", "Book"));

@@ -1,8 +1,9 @@
 ﻿const dns = require("dns");
 const path = require("path");
+const { resolveMongoUri } = require("./utils/mongoConfig");
 dns.setServers(["1.1.1.1"]);
 
-require("dotenv").config({ path: path.join(__dirname, "atlas-credentials.env") });
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const passport = require("passport");
@@ -15,7 +16,7 @@ const Book = require("./model/Book");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const MONGODB_URI = process.env.MONGO_URL || process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/Library";
+const MONGODB_URI = resolveMongoUri(process.env);
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "Admin";
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "12345";
 const workerPath = path.join(__dirname, "services", "tensorflowWorker.js");
@@ -215,6 +216,7 @@ async function startServer() {
     });
   } catch (err) {
     console.error("Failed to start server:", err);
+    console.warn("Falling back to local MongoDB if available at mongodb://127.0.0.1:27017/Library");
     process.exit(1);
   }
 }
