@@ -11,4 +11,4 @@ const bookForAiSchema = new mongoose.Schema({
   publisher: String,
 });
 
-module.exports = mongoose.model("BookForAi", bookForAiSchema, "booksforai");
+module.exports = mongoose.model("BookForAi", bookForAiSchema, "BoookForAi");

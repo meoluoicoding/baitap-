@@ -5,7 +5,9 @@
   "type": "commonjs",
   "scripts": {
     "start": "node app.js",
-    "dev": "node app.js"
+    "dev": "node app.js",
+    "seed": "node scripts/seed.js",
+    "seed:force": "node scripts/seed.js --force"
   },
   "keywords": [],
   "author": "",
