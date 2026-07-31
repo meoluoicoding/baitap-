@@ -1,0 +1,52 @@
+[
+  {
+    "bookID": 11,
+    "title": "The Alchemist",
+    "authors": "Paulo Coelho",
+    "average_rating": 3.89,
+    "ratings_count": 2345678,
+    "text_reviews_count": 89012,
+    "publication_date": "1988-01-01",
+    "publisher": "HarperOne"
+  },
+  {
+    "bookID": 12,
+    "title": "The Kite Runner",
+    "authors": "Khaled Hosseini",
+    "average_rating": 4.29,
+    "ratings_count": 2156789,
+    "text_reviews_count": 95432,
+    "publication_date": "2003-05-29",
+    "publisher": "Riverhead Books"
+  },
+  {
+    "bookID": 13,
+    "title": "Life of Pi",
+    "authors": "Yann Martel",
+    "average_rating": 3.93,
+    "ratings_count": 1789012,
+    "text_reviews_count": 67890,
+    "publication_date": "2001-05-01",
+    "publisher": "Knopf Canada"
+  },
+  {
+    "bookID": 14,
+    "title": "The Book Thief",
+    "authors": "Markus Zusak",
+    "average_rating": 4.37,
+    "ratings_count": 1890123,
+    "text_reviews_count": 78901,
+    "publication_date": "2005-01-01",
+    "publisher": "Picador"
+  },
+  {
+    "bookID": 15,
+    "title": "The Road",
+    "authors": "Cormac McCarthy",
+    "average_rating": 4.04,
+    "ratings_count": 1234567,
+    "text_reviews_count": 56789,
+    "publication_date": "2006-09-26",
+    "publisher": "Knopf"
+  }
+]

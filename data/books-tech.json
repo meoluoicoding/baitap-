@@ -1,0 +1,52 @@
+[
+  {
+    "bookID": 26,
+    "title": "Clean Code",
+    "authors": "Robert C. Martin",
+    "average_rating": 4.37,
+    "ratings_count": 987654,
+    "text_reviews_count": 43210,
+    "publication_date": "2008-08-01",
+    "publisher": "Prentice Hall"
+  },
+  {
+    "bookID": 27,
+    "title": "Design Patterns",
+    "authors": "Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides",
+    "average_rating": 4.21,
+    "ratings_count": 876543,
+    "text_reviews_count": 38765,
+    "publication_date": "1994-10-31",
+    "publisher": "Addison-Wesley"
+  },
+  {
+    "bookID": 28,
+    "title": "The Pragmatic Programmer",
+    "authors": "David Thomas, Andrew Hunt",
+    "average_rating": 4.33,
+    "ratings_count": 765432,
+    "text_reviews_count": 34567,
+    "publication_date": "1999-10-20",
+    "publisher": "Addison-Wesley"
+  },
+  {
+    "bookID": 29,
+    "title": "Introduction to Algorithms",
+    "authors": "Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, Clifford Stein",
+    "average_rating": 4.41,
+    "ratings_count": 654321,
+    "text_reviews_count": 29876,
+    "publication_date": "2009-07-31",
+    "publisher": "MIT Press"
+  },
+  {
+    "bookID": 30,
+    "title": "You Don't Know JS",
+    "authors": "Kyle Simpson",
+    "average_rating": 4.22,
+    "ratings_count": 543210,
+    "text_reviews_count": 23456,
+    "publication_date": "2014-12-27",
+    "publisher": "O'Reilly Media"
+  }
+]

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TensorFlow Chat</title>
+  <link rel="stylesheet" href="/css/chat.css">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+  <div class="chat-header">
+    <button class="back-button" onclick="goBack()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+    </button>
+    <div class="header-info">
+      <h1>TensorFlow Chat</h1>
+      <span class="header-status">AI Book Recommender</span>
+    </div>
+  </div>
+
+  <div id="chat-container">
+    <div id="chat-window">
+      <div class="welcome-message">
+        <div class="welcome-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#c49b6a" stroke-width="1.5">
+            <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+          </svg>
+        </div>
+        <h2>How can I help you today?</h2>
+        <p>Ask me for book recommendations based on any topic</p>
+        <div class="suggestion-chips">
+          <button class="chip" onclick="sendSuggestion('books about artificial intelligence')">AI & Technology</button>
+          <button class="chip" onclick="sendSuggestion('classic novels')">Classic Literature</button>
+          <button class="chip" onclick="sendSuggestion('self improvement')">Self Improvement</button>
+          <button class="chip" onclick="sendSuggestion('science fiction')">Sci-Fi</button>
+        </div>
+      </div>
+    </div>
+    <div class="loading-indicator" style="display:none;">
+      <div class="typing-dots">
+        <span></span><span></span><span></span>
+      </div>
+      <span>Finding books...</span>
+    </div>
+    <form id="chat-form">
+      <div class="input-wrapper">
+        <input type="text" id="prompt-input" placeholder="e.g., books about space travel" autocomplete="off">
+        <button type="submit" id="send-button">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+          </svg>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('chat-form');
+    const input = document.getElementById('prompt-input');
+    const sendButton = document.getElementById('send-button');
+    const chatWindow = document.getElementById('chat-window');
+    const loadingIndicator = document.querySelector('.loading-indicator');
+
+    function sendSuggestion(text) {
+      input.value = text;
+      form.dispatchEvent(new Event('submit'));
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const prompt = input.value.trim();
+      if (!prompt) return;
+
+      const welcomeMsg = document.querySelector('.welcome-message');
+      if (welcomeMsg) welcomeMsg.remove();
+
+      addMessage(prompt, 'user-message');
+      input.value = '';
+      sendButton.disabled = true;
+      input.disabled = true;
+      loadingIndicator.style.display = 'flex';
+      chatWindow.scrollTop = chatWindow.scrollHeight;
+
+      try {
+        const res = await axios.post('/tensorflow-chat', { prompt });
+        if (res.data.books && res.data.books.length) {
+          addMessage(res.data.response, 'gemini-message');
+          addBookCards(res.data.books);
+        } else {
+          addMessage(res.data.response || `Sorry, no matching books were found for "${prompt}".`, 'gemini-message');
+        }
+      } catch (err) {
+        console.error(err);
+        addMessage('Sorry, something went wrong. Please try again.', 'gemini-message');
+      } finally {
+        sendButton.disabled = false;
+        input.disabled = false;
+        input.focus();
+        loadingIndicator.style.display = 'none';
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+      }
+    });
+
+    function addMessage(text, className) {
+      const msgDiv = document.createElement('div');
+      msgDiv.className = `${className} message`;
+      msgDiv.textContent = text;
+      chatWindow.appendChild(msgDiv);
+      chatWindow.scrollTop = chatWindow.scrollHeight;
+    }
+
+    function addBookCards(books) {
+      const container = document.createElement('div');
+      container.className = 'book-cards';
+
+      books.forEach((book, i) => {
+        const card = document.createElement('div');
+        card.className = 'book-card';
+        card.style.animationDelay = `${i * 0.1}s`;
+
+        const score = book.score ? (book.score * 100).toFixed(0) : null;
+        const rating = book.average_rating || 'N/A';
+        const publisher = book.publisher || 'Unknown publisher';
+        const pubDate = book.publication_date || '';
+
+        card.innerHTML = `
+          <div class="book-card-header">
+            <span class="book-number">#${i + 1}</span>
+            ${score ? `<span class="match-score">${score}% match</span>` : ''}
+          </div>
+          <h4 class="book-title">${escapeHtml(book.title || 'Untitled')}</h4>
+          <p class="book-author">${escapeHtml(book.authors || 'Unknown author')}</p>
+          <div class="book-meta">
+            <span class="book-rating">⭐ ${rating}</span>
+            <span class="book-publisher">${escapeHtml(publisher)}</span>
+          </div>
+          ${pubDate ? `<p class="book-date">${escapeHtml(pubDate)}</p>` : ''}
+        `;
+        container.appendChild(card);
+      });
+
+      chatWindow.appendChild(container);
+      chatWindow.scrollTop = chatWindow.scrollHeight;
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function goBack() {
+      history.back();
+    }
+
+    input.focus();
+  </script>
+</body>
+</html>

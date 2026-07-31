@@ -1,0 +1,52 @@
+[
+  {
+    "bookID": 16,
+    "title": "The Da Vinci Code",
+    "authors": "Dan Brown",
+    "average_rating": 3.87,
+    "ratings_count": 2567890,
+    "text_reviews_count": 102345,
+    "publication_date": "2003-03-18",
+    "publisher": "Doubleday"
+  },
+  {
+    "bookID": 17,
+    "title": "Gone Girl",
+    "authors": "Gillian Flynn",
+    "average_rating": 4.08,
+    "ratings_count": 1987654,
+    "text_reviews_count": 87654,
+    "publication_date": "2012-06-05",
+    "publisher": "Crown Publishing Group"
+  },
+  {
+    "bookID": 18,
+    "title": "The Girl with the Dragon Tattoo",
+    "authors": "Stieg Larsson",
+    "average_rating": 4.10,
+    "ratings_count": 1654321,
+    "text_reviews_count": 65432,
+    "publication_date": "2005-08-01",
+    "publisher": "Norstedts Förlag"
+  },
+  {
+    "bookID": 19,
+    "title": "Sherlock Holmes: A Study in Scarlet",
+    "authors": "Arthur Conan Doyle",
+    "average_rating": 4.13,
+    "ratings_count": 1432109,
+    "text_reviews_count": 54321,
+    "publication_date": "1887-11-01",
+    "publisher": "Ward Lock & Co"
+  },
+  {
+    "bookID": 20,
+    "title": "And Then There Were None",
+    "authors": "Agatha Christie",
+    "average_rating": 4.26,
+    "ratings_count": 1876543,
+    "text_reviews_count": 76543,
+    "publication_date": "1939-11-06",
+    "publisher": "Collins Crime Club"
+  }
+]

@@ -1,0 +1,52 @@
+[
+  {
+    "bookID": 21,
+    "title": "Atomic Habits",
+    "authors": "James Clear",
+    "average_rating": 4.35,
+    "ratings_count": 3456789,
+    "text_reviews_count": 123456,
+    "publication_date": "2018-10-16",
+    "publisher": "Avery"
+  },
+  {
+    "bookID": 22,
+    "title": "Thinking, Fast and Slow",
+    "authors": "Daniel Kahneman",
+    "average_rating": 4.18,
+    "ratings_count": 1567890,
+    "text_reviews_count": 67890,
+    "publication_date": "2011-10-25",
+    "publisher": "Farrar, Straus and Giroux"
+  },
+  {
+    "bookID": 23,
+    "title": "The 7 Habits of Highly Effective People",
+    "authors": "Stephen R. Covey",
+    "average_rating": 4.13,
+    "ratings_count": 2345678,
+    "text_reviews_count": 89012,
+    "publication_date": "1989-08-15",
+    "publisher": "Free Press"
+  },
+  {
+    "bookID": 24,
+    "title": "How to Win Friends and Influence People",
+    "authors": "Dale Carnegie",
+    "average_rating": 4.19,
+    "ratings_count": 3210987,
+    "text_reviews_count": 110987,
+    "publication_date": "1936-01-01",
+    "publisher": "Simon & Schuster"
+  },
+  {
+    "bookID": 25,
+    "title": "Rich Dad Poor Dad",
+    "authors": "Robert T. Kiyosaki",
+    "average_rating": 3.95,
+    "ratings_count": 4567890,
+    "text_reviews_count": 134567,
+    "publication_date": "1997-04-01",
+    "publisher": "Plata Publishing"
+  }
+]

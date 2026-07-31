@@ -1,0 +1,52 @@
+[
+  {
+    "bookID": 1,
+    "title": "To Kill a Mockingbird",
+    "authors": "Harper Lee",
+    "average_rating": 4.28,
+    "ratings_count": 4745689,
+    "text_reviews_count": 98765,
+    "publication_date": "1960-07-11",
+    "publisher": "J. B. Lippincott & Co."
+  },
+  {
+    "bookID": 2,
+    "title": "1984",
+    "authors": "George Orwell",
+    "average_rating": 4.19,
+    "ratings_count": 5036892,
+    "text_reviews_count": 112345,
+    "publication_date": "1949-06-08",
+    "publisher": "Secker & Warburg"
+  },
+  {
+    "bookID": 3,
+    "title": "Pride and Prejudice",
+    "authors": "Jane Austen",
+    "average_rating": 4.26,
+    "ratings_count": 3879456,
+    "text_reviews_count": 87654,
+    "publication_date": "1813-01-28",
+    "publisher": "T. Egerton"
+  },
+  {
+    "bookID": 4,
+    "title": "The Great Gatsby",
+    "authors": "F. Scott Fitzgerald",
+    "average_rating": 3.89,
+    "ratings_count": 4567890,
+    "text_reviews_count": 95432,
+    "publication_date": "1925-04-10",
+    "publisher": "Charles Scribner's Sons"
+  },
+  {
+    "bookID": 5,
+    "title": "One Hundred Years of Solitude",
+    "authors": "Gabriel García Márquez",
+    "average_rating": 4.07,
+    "ratings_count": 1234567,
+    "text_reviews_count": 45678,
+    "publication_date": "1967-05-30",
+    "publisher": "Editorial Sudamericana"
+  }
+]

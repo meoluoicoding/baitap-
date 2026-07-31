@@ -1,0 +1,52 @@
+[
+  {
+    "bookID": 6,
+    "title": "Dune",
+    "authors": "Frank Herbert",
+    "average_rating": 4.25,
+    "ratings_count": 1567890,
+    "text_reviews_count": 67890,
+    "publication_date": "1965-08-01",
+    "publisher": "Chilton Books"
+  },
+  {
+    "bookID": 7,
+    "title": "The Hitchhiker's Guide to the Galaxy",
+    "authors": "Douglas Adams",
+    "average_rating": 4.22,
+    "ratings_count": 1890123,
+    "text_reviews_count": 78901,
+    "publication_date": "1979-10-12",
+    "publisher": "Pan Books"
+  },
+  {
+    "bookID": 8,
+    "title": "Neuromancer",
+    "authors": "William Gibson",
+    "average_rating": 3.88,
+    "ratings_count": 890123,
+    "text_reviews_count": 34567,
+    "publication_date": "1984-07-01",
+    "publisher": "Ace Books"
+  },
+  {
+    "bookID": 9,
+    "title": "Foundation",
+    "authors": "Isaac Asimov",
+    "average_rating": 4.17,
+    "ratings_count": 1456789,
+    "text_reviews_count": 56789,
+    "publication_date": "1951-06-01",
+    "publisher": "Gnome Press"
+  },
+  {
+    "bookID": 10,
+    "title": "Ender's Game",
+    "authors": "Orson Scott Card",
+    "average_rating": 4.30,
+    "ratings_count": 1678901,
+    "text_reviews_count": 72345,
+    "publication_date": "1985-01-15",
+    "publisher": "Tor Books"
+  }
+]
