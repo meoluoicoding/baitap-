@@ -13,6 +13,10 @@
     </div>
     <div class="right">
       <h1>Sign up Form for Library Member</h1>
+      <% const authError = typeof error !== 'undefined' ? error : ''; %>
+      <% if (authError) { %>
+        <div class="alert error"><%= authError %></div>
+      <% } %>
       <form action="/register" method="POST" class="form-table">
         <table>
           <tr>

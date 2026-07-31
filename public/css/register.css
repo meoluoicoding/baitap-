@@ -92,6 +92,22 @@ p a {
   display: inline-block;
 }
 
+.alert {
+  width: 70%;
+  max-width: 380px;
+  margin: 0 0 16px 0;
+  padding: 12px 14px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.alert.error {
+  background-color: #fde2e2;
+  color: #b42318;
+  border: 1px solid #f5b7b1;
+}
+
 @media (max-width: 800px) {
   .container {
     flex-direction: column;

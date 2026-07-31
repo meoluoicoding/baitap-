@@ -3,7 +3,9 @@ const path = require("path");
 const { resolveMongoUri } = require("./utils/mongoConfig");
 dns.setServers(["1.1.1.1"]);
 
-require("dotenv").config();
+const dotenv = require("dotenv");
+dotenv.config({ path: path.join(__dirname, "atlas-credentials.env") });
+dotenv.config({ path: path.join(__dirname, ".env") });
 const express = require("express");
 const mongoose = require("mongoose");
 const passport = require("passport");
@@ -45,9 +47,10 @@ app.use(passport.session());
 passport.use(
   new LocalStrategy(async (username, password, done) => {
     try {
-      const user = await User.findOne({ username });
+      const normalizedUsername = (username || "").trim().toLowerCase();
+      const user = await User.findOne({ username: normalizedUsername });
       if (!user) return done(null, false, { message: "Incorrect username." });
-      if (user.password !== password) return done(null, false, { message: "Incorrect password." });
+      if (user.password !== (password || "")) return done(null, false, { message: "Incorrect password." });
       return done(null, user);
     } catch (err) {
       return done(err);
@@ -57,11 +60,25 @@ passport.use(
 
 passport.use(
   "admin-local",
-  new LocalStrategy((username, password, done) => {
-    if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
-      return done(null, { username: ADMIN_USERNAME, isAdmin: true, _id: "admin" });
+  new LocalStrategy(async (username, password, done) => {
+    try {
+      const normalizedUsername = (username || "").trim();
+      const normalizedPassword = (password || "").trim();
+      const expectedAdminUsername = (ADMIN_USERNAME || "Admin").trim();
+      const expectedAdminPassword = (ADMIN_PASSWORD || "12345").trim();
+
+      const adminUser = await User.findOne({ username: expectedAdminUsername, isAdmin: true });
+      const isValidAdmin =
+        (normalizedUsername === expectedAdminUsername || normalizedUsername.toLowerCase() === expectedAdminUsername.toLowerCase()) &&
+        (normalizedPassword === expectedAdminPassword || (adminUser && adminUser.password === normalizedPassword));
+
+      if (isValidAdmin) {
+        return done(null, { username: expectedAdminUsername, isAdmin: true, _id: "admin" });
+      }
+      return done(null, false, { message: "Incorrect admin credentials" });
+    } catch (err) {
+      return done(err);
     }
-    return done(null, false, { message: "Incorrect admin credentials" });
   })
 );
 
@@ -89,11 +106,25 @@ function isLoggedIn(req, res, next) {
 }
 
 app.get("/", (req, res) => res.render("home"));
-app.get("/register", (req, res) => res.render("register"));
+app.get("/register", (req, res) => {
+  res.locals.error = req.query.error || "";
+  res.render("register", { error: res.locals.error });
+});
 
 app.post("/register", async (req, res, next) => {
   try {
-    const { username, password } = req.body;
+    const username = (req.body.username || "").trim().toLowerCase();
+    const password = (req.body.password || "").trim();
+
+    if (!username || !password) {
+      return res.redirect("/register?error=Please fill in all fields");
+    }
+
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+      return res.redirect("/register?error=Username already exists");
+    }
+
     const newUser = await User.create({ username, password, isAdmin: false });
 
     req.login(newUser, (loginErr) => {
@@ -103,28 +134,31 @@ app.post("/register", async (req, res, next) => {
       return res.redirect("/booklist");
     });
   } catch (err) {
-    res.redirect("/register");
+    res.redirect("/register?error=Registration failed");
   }
 });
 
-app.get("/login", (req, res) => res.render("login"));
+app.get("/login", (req, res) => {
+  res.locals.error = req.query.error || "";
+  res.render("login", { error: res.locals.error });
+});
 
 app.post("/login", (req, res, next) => {
   passport.authenticate("local", async (err, user) => {
     if (err || !user) {
-      return res.redirect("/?error=Invalid credentials");
+      return res.redirect("/login?error=Invalid username or password");
     }
 
     req.logIn(user, async (loginErr) => {
       if (loginErr) {
-        return res.redirect("/?error=Login failed");
+        return res.redirect("/login?error=Login failed");
       }
 
       try {
         const books = await Book.find({}).limit(15);
         return res.render("booklist", { books });
       } catch (fetchErr) {
-        return res.redirect("/");
+        return res.redirect("/login?error=Unable to load books");
       }
     });
   })(req, res, next);
@@ -143,13 +177,16 @@ app.get("/booklist", isLoggedIn, async (req, res) => {
   }
 });
 
-app.get("/admin", (req, res) => res.render("admin-login"));
+app.get("/admin", (req, res) => {
+  res.locals.error = req.query.error || "";
+  res.render("admin-login", { error: res.locals.error });
+});
 
 app.post(
   "/admin-login",
   passport.authenticate("admin-local", {
     successRedirect: "/admin-dashboard",
-    failureRedirect: "/?error=Invalid admin credentials",
+    failureRedirect: "/admin?error=Invalid admin username or password",
   })
 );
 
@@ -203,10 +240,27 @@ app.post("/tensorflow-chat", (req, res) => {
   tensorflowWorker.postMessage({ prompt });
 });
 
+async function ensureDefaultAdmin() {
+  try {
+    const adminUsername = (process.env.ADMIN_USERNAME || "Admin").trim();
+    const adminPassword = (process.env.ADMIN_PASSWORD || "12345").trim();
+
+    const existingAdmin = await User.findOne({ username: adminUsername, isAdmin: true });
+    if (!existingAdmin) {
+      await User.create({ username: adminUsername, password: adminPassword, isAdmin: true });
+      console.log("Default admin account created.");
+    }
+  } catch (err) {
+    console.error("Failed to ensure default admin account:", err);
+  }
+}
+
 async function startServer() {
   try {
     await mongoose.connect(MONGODB_URI);
     console.log("MongoDB connected successfully.");
+
+    await ensureDefaultAdmin();
 
     const books = await Book.find({}).limit(300).lean();
     tensorflowWorker.postMessage({ type: "loadBooks", books });
